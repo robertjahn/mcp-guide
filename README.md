@@ -155,19 +155,27 @@ Refer to [Getting started with Davis Copilot](https://docs.dynatrace.com/docs/di
 
 In this example, I used VS Code for the `mcp.json` file. 
 * Adjust `jde30943:dynatrace-remote-mcp` to your environment or preferred name.  
-* Update `{PLATFORM TOKEN}` with the Platform token created above
+* When you start the MCP server, you will be prompted to the `Platform Token`
 
 ```
 {
-    	"servers": {
-		"jde30943:dynatrace-remote-mcp": {
-			"url": "https://jde30943.apps.dynatrace.com/platform-reserved/mcp-gateway/v0.1/servers/dynatrace-mcp/mcp",
+	"servers": {
+        "jde30943:dynatrace-remote-mcp": {
+            "url": "https://jde30943.apps.dynatrace.com/platform-reserved/mcp-gateway/v0.1/servers/dynatrace-mcp/mcp",
 			"type": "http",
-			"headers": {
-					"Authorization": "Bearer {PLATFORM TOKEN}"
-			},      
-			"disabled": false
+            "headers": {
+                "Authorization": "Bearer ${input:bearer_token}"
+            }
 		}
+	},
+	"inputs": [
+        {
+            "type": "promptString",
+            "password": true,
+            "id": "bearer_token",
+            "description": "Platform Token"
+        }
+    ]
 }
 ```
 
