@@ -79,7 +79,9 @@ Perform the following within [Dynatrace Account](https://myaccount.dynatrace.com
 
 Below are the scopes for the Remote MCP server. Additional Scopes may be required for Local MCP server base on the use case. Refer to [Scopes for Authentication](https://github.com/dynatrace-oss/dynatrace-mcp/tree/main?tab=readme-ov-file#scopes-for-authentication) README for the latest list.
 
-Within the account, goto this menu option `Identify & access management --> Platform Tokens` and add a new Platform token.   Save the generated token to a secure place for later usage.
+* _NOTE: The Local MCP server has an option to prompt for user credentials when the MCP Server is started. This assumes your login has the proper scopes, but it saves the step of making a platform token. So for this use case of running the MCP Local without a platform token, you can skip this step._
+
+Create Platform Token by going to the menu option `Identify & access management --> Platform Tokens` within account management and add a new Platform token. Save the generated token to a secure place for later usage.
 
 ```
 davis-copilot:nl2dql:execute;
@@ -167,10 +169,9 @@ To get familiar and to use either the local or remote Dynatrace MCP Server, a de
 
 For quick reference, here is an example from the [mcp.json](mcp.json) file included in this repo. 
 
-Once configured:
+Using the example below:
 * Adjust `jde30943:dynatrace-remote-mcp` server name to your Dynatrace environment or preferred name.  
 * Adjust `url` to your Dynatrace environment  
-* When you start the MCP server, you will be prompted to the `Platform Token`
 
 ```
 {
@@ -194,6 +195,8 @@ Once configured:
 }
 ```
 
+When you start the MCP server, you will be prompted to the `Platform Token`
+
 Once added, start the MCP server and you will see the output
 ```
 2025-11-07 15:11:27.397 [info] Starting server jde30943:dynatrace-remote-mcp
@@ -213,9 +216,39 @@ show config and tools available in MCP Server named 'jde30943:dynatrace-remote-m
 
 There are more examples in the [Configuration Section](https://github.com/dynatrace-oss/dynatrace-mcp/tree/main?tab=readme-ov-file#configuration) of the Local MCP Repo, but for quick reference, here is an example from the [mcp.json](mcp.json) file included in this repo. 
 
-Once configured:
+There are two ways to setup this up, with or without a Dynatrace platform tokens.
+
+### Use Case 1: Without platform token
+
+In this use case of no platform token, a browser window will open and prompt with your user credentials when the MCP Server is started. This assumes your login has the proper scopes, but it saves the step of making a platform token.
+
+Using the example below:
 * Adjust `jde30943:dynatrace-local-mcp` server name to your Dynatrace environment or preferred name.  
-* When you start the MCP server, you will be prompted to the `Platform Token`
+* Adjust `DT_ENVIRONMENT` to your Dynatrace environment  
+
+```
+{
+	"servers": {
+		"jde30943:dynatrace-local-mcp": {
+			"command": "npx",
+			"cwd": "${workspaceFolder}",
+			"args": ["-y", "@dynatrace-oss/dynatrace-mcp-server@latest"],
+      		"env": {
+              "DT_ENVIRONMENT": "https://jde30943.apps.dynatrace.com"
+            }
+		}
+	}
+}
+```
+
+When you start the MCP server, a browser window open to prompt for credentials.
+
+### Use Case 2: With platform token as a user input
+
+In this use case a platform token, is created and used as an input.
+
+Using the example below:
+* Adjust `jde30943:dynatrace-local-mcp` server name to your Dynatrace environment or preferred name.  
 
 ```
 {
@@ -237,6 +270,9 @@ Once configured:
     ]
 }
 ```
+
+When you start the MCP server, you will be prompted to the `Platform Token`
+
 
 # Reference Links
 
