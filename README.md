@@ -1,10 +1,14 @@
 # Overview
 
-Short guide for setup and usage of the Dynatrace [Remote MCP](https://docs.dynatrace.com/docs/discover-dynatrace/platform/davis-ai/dynatrace-mcp).
+The Dynatrace Remote MCP Server seamlessly connects 3rd party AI agents to the Dynatrace platform, delivering real-time production context directly into your workflows. It provides secure, governed access to Dynatrace\u2019s high-quality data, deep contextual awareness, and deterministic intelligence, available from any MCP-enabled environment. Whether in your IDE, Atlassian Rovo, Microsoft Copilot, ChatGPT, or other tools, Dynatrace empowers you to infuse reliable, real-time insights into every workflow and transform the way you work.
 
-# Example prompts
+This repo provides a guide for setup and usage of both:
+1. Dynatrace Remote MCP Server currently in Preview - [Dynatrace Hub Tile](https://www.dynatrace.com/hub/detail/dynatrace-mcp-server)
+1. Community-driven OpenSource Local MCP Server - [Dynatrace Hub Tile](https://www.dynatrace.com/hub/detail/local-mcp-server-1)
 
-Once configured, below are example prompts to try out.
+# Example prompts once installed
+
+Once either the remote or local MCP servers are configured, below are example prompts to try them out.
 
 ### View available tools
 
@@ -65,13 +69,15 @@ How can I investigate slow database queries in Dynatrace?
 How can configure a tagging rule?
 ```
 
-# Remote MCP Server Setup
+# Dynatrace Prerequisites Setup
 
 ## 1. Add Platform Token and IAM
 
 Perform the following within [Dynatrace Account](https://myaccount.dynatrace.com/accounts) settings.
 
 ### 1.1 Create Platform Token
+
+Below are the scopes for the Remote MCP server. Additional Scopes may be required for Local MCP server base on the use case. Refer to [Scopes for Authentication](https://github.com/dynatrace-oss/dynatrace-mcp/tree/main?tab=readme-ov-file#scopes-for-authentication) README for the latest list.
 
 Within the account, goto this menu option `Identify & access management --> Platform Tokens` and add a new Platform token.   Save the generated token to a secure place for later usage.
 
@@ -99,7 +105,9 @@ Refer to [Dynatrace Platform Token](https://docs.dynatrace.com/docs/manage/ident
 
 The user that creates the Platform token needs to have the same permission as the token.  So a policy must be made that the the user uses.
 
-Within the account, goto this menu option `Identify & access management --> Policy Management` 
+Below are the scopes for the Remote MCP server. Additional Scopes may be required for Local MCP server base on the use case. Refer to [Scopes for Authentication](https://github.com/dynatrace-oss/dynatrace-mcp/tree/main?tab=readme-ov-file#scopes-for-authentication) README for the latest list.
+
+Within [Account Management](https://myaccount.dynatrace.com/accounts), goto this menu option `Identify & access management --> Policy Management` 
 
 * Add a new policy. Suggested name `_MCP`.  
 * Paste in these scopes to the policy.
@@ -126,7 +134,7 @@ Refer to [Dynatrace IAM Policies](https://docs.dynatrace.com/docs/manage/identit
 
 ### 1.3. Make a New Group
 
-Within the account, goto this menu option `Identify & access management --> Group Management` 
+Within [Account Management](https://myaccount.dynatrace.com/accounts), goto this menu option `Identify & access management --> Group Management` 
 
 You can add to an existing group or make a group with a name like `_MCP` and add the permission to the `_MCP` policy created in the previous step.
 
@@ -134,7 +142,7 @@ Refer to [Dynatrace Group Management](https://docs.dynatrace.com/docs/manage/ide
 
 ### 1.4. Add User making the platform token to the the policy
 
-Within the account, goto this menu option `Identify & access management --> User Management` 
+Within [Account Management](https://myaccount.dynatrace.com/accounts), goto this menu option `Identify & access management --> User Management` 
 
 Edit the user and add them to the group `_MCP`
 
@@ -142,7 +150,7 @@ Refer to [Dynatrace User Management](https://docs.dynatrace.com/docs/manage/iden
 
 ## 2. Enable Davis Copilot
 
-To enable Davis CoPilot on your environment, goto `Settings >  Dynatrace AI > Generative AI.`
+To enable Davis CoPilot on your environment, goto `Settings >  Dynatrace AI > Generative AI.` within your Dynatrace Environment.
 * Turn on `Enable generative AI`
 * Turn on `Enable document suggestions`
 * Turn on `Enable environment-aware queries`
@@ -151,10 +159,17 @@ The `Configure data access` is not required unless you want to restrict access.
 
 Refer to [Getting started with Davis Copilot](https://docs.dynatrace.com/docs/discover-dynatrace/platform/davis-ai/copilot/copilot-getting-started) documentation for more details.
 
-## 3. Setup with in an IDE
+# MCP Server Setup with in an IDE
 
-In this example, I used VS Code for the `mcp.json` file. 
-* Adjust `jde30943:dynatrace-remote-mcp` to your environment or preferred name.  
+To get familiar and to use either the local or remote Dynatrace MCP Server, a development IDE like VS Code as described below can be used. The setup is similar, but do follow the guide for either the local or remote (or both) as shown below.
+
+## Remote MCP Server
+
+For quick reference, here is an example from the [mcp.json](mcp.json) file included in this repo. 
+
+Once configured:
+* Adjust `jde30943:dynatrace-remote-mcp` server name to your Dynatrace environment or preferred name.  
+* Adjust `url` to your Dynatrace environment  
 * When you start the MCP server, you will be prompted to the `Platform Token`
 
 ```
@@ -194,7 +209,37 @@ To verify, run this chat prompt to view the available tools
 show config and tools available in MCP Server named 'jde30943:dynatrace-remote-mcp'
 ```
 
+## Local MCP Server
 
-Refer to
-* [Dynatrace MCP Remote](https://docs.dynatrace.com/docs/discover-dynatrace/platform/davis-ai/dynatrace-mcp) documentation for more details.
-* [Visual Studio Docs](https://code.visualstudio.com/docs/copilot/customization/mcp-servers) for more details on MCP configuration.
+There are more examples in the [Configuration Section](https://github.com/dynatrace-oss/dynatrace-mcp/tree/main?tab=readme-ov-file#configuration) of the Local MCP Repo, but for quick reference, here is an example from the [mcp.json](mcp.json) file included in this repo. 
+
+Once configured:
+* Adjust `jde30943:dynatrace-local-mcp` server name to your Dynatrace environment or preferred name.  
+* When you start the MCP server, you will be prompted to the `Platform Token`
+
+```
+{
+	"servers": {
+		"jde30943:dynatrace-local-mcp": {
+			"command": "npx",
+			"cwd": "${workspaceFolder}",
+			"args": ["-y", "@dynatrace-oss/dynatrace-mcp-server@latest"],
+      		"envFile": "${workspaceFolder}/.env"
+		},
+	},
+	"inputs": [
+        {
+            "type": "promptString",
+            "password": true,
+            "id": "bearer_token",
+            "description": "Platform Token"
+        }
+    ]
+}
+```
+
+# Reference Links
+
+* [Dynatrace MCP Remote Server Help Docs](https://docs.dynatrace.com/docs/discover-dynatrace/platform/davis-ai/dynatrace-mcp)
+* [Dynatrace MCP Local Server GitHub Repo](https://github.com/dynatrace-oss/dynatrace-mcp) 
+* [Visual Studio CoPilot MCP configuration Docs](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)
