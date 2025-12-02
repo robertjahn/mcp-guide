@@ -1,6 +1,6 @@
 # Overview
 
-The Dynatrace Remote MCP Server seamlessly connects 3rd party AI agents to the Dynatrace platform, delivering real-time production context directly into your workflows. It provides secure, governed access to Dynatrace\u2019s high-quality data, deep contextual awareness, and deterministic intelligence, available from any MCP-enabled environment. Whether in your IDE, Atlassian Rovo, Microsoft Copilot, ChatGPT, or other tools, Dynatrace empowers you to infuse reliable, real-time insights into every workflow and transform the way you work.
+The Dynatrace Remote MCP Server seamlessly connects 3rd party AI agents to the Dynatrace platform, delivering real-time production context directly into your workflows. It provides secure, governed access to Dynatrace's high-quality data, deep contextual awareness, and deterministic intelligence, available from any MCP-enabled environment. Whether in your IDE, Atlassian Rovo, Microsoft Copilot, ChatGPT, or other tools, Dynatrace empowers you to infuse reliable, real-time insights into every workflow and transform the way you work.
 
 This repo provides a guide for setup and usage of both:
 1. Dynatrace Remote MCP Server currently in Preview - [Dynatrace Hub Tile](https://www.dynatrace.com/hub/detail/dynatrace-mcp-server)
